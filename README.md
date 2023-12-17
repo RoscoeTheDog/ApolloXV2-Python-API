@@ -3,7 +3,7 @@
 
 ![image](https://github.com/RoscoeTheDog/ApolloXV2-Python-API/assets/54086262/d810942f-c0bb-4610-ac65-32727fd07a43)
 
-ApolloXV2 is a great bsc on-chain solution for trading with features over V1 lets you manage risk better. Use 1-1001x leverage (depending on the market). Provide more than just stablecoins as collateral to trade with. Trades settle directly to your hotstorage wallet to reduce unncesssary exposure.
+ApolloXV2 is a great bsc on-chain solution for trading; with better features improving on its V1 predecesor which lets you manage risk better. Use 1-1001x leverage (depending on the market). Provide more than just stablecoins as collateral to trade with. Trades settle directly to your hotstorage wallet to reduce unncesssary exposure.
 
 **Known-issues:**
 + Expression to calculate the order qty only works with USDT USDC stablecoins currently. I'm working on evaluating this out soon.
