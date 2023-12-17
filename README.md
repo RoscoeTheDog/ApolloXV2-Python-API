@@ -119,5 +119,5 @@ def create_market_order(wallet_address, private_key):
 
 ```
 
-Like my work? Then buy me a drink! ☕🍺 <br>
+Like my work? Buy me a drink! ☕🍺 <br>
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=9TUKFAZRVLH4W)
