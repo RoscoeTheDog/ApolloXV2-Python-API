@@ -6,11 +6,15 @@
 ApolloXV2 is a great bsc on-chain solution for trading; with better features improving on its V1 predecesor which lets you manage risk better. Use 1-1001x leverage (depending on the market). Provide more than just stablecoins as collateral to trade with. Trades settle directly to your hotstorage wallet to reduce unncesssary exposure.
 
 **Known-issues:**
-+ Expression to calculate the order qty only works with USDT USDC stablecoins currently. I'm working on evaluating this out soon.
 + Not all tokens have been wrapped as a `BaseBSCToken` class in `defi/tokens/bsc.py`. it may need expanding on especially as more markets are released.
 
- 
-Quickstart usage. See `examples.py` for a more in depth look at creating orders.
+This wrapper provides a python interface to ApolloxXV2 perp smart contracts [found here](https://github.com/apollox-finance/apollox-perp-contracts/tree/60638b7479362a1a1ac1bb3fead020c5082fe4cd/contracts). 
+All essential methods to implement a strategy have been wrapped, while nonessentials have been ommited due to lack of a practical need.
+
+You can read, create, limit, cancel, close, history, etc. The only thing not implemented currently is adding margin to existing trades (TBD).
+
+
+Example usage.
 ```python
 from apolloxV2 import ApolloXV2
 from defi.tokens.bsc import *
