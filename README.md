@@ -71,6 +71,7 @@ while not fetched:
 
 '''
    In this example we'll use about $13 of eth (0.055) as margin with 20x leverage to open a ~$200+ long position on BTC-USD.
+   Note here that leverage calcs can be applied differently depending if `amount` represents the margin amount or the full position amount.
 '''
 amount = 0.0055  # amount of collateral input currency
 leverage = 20    
@@ -83,7 +84,7 @@ if order_type == 'create_market_order':
     target_price = base_price * (1 + 0.001)
 elif order_type == 'create_limit_order':
     amount_in = amount / leverage * 10**18    # this field type is always ^18 no matter the currency.
-    target_price = base_price * (1 - 0.5)   #
+    target_price = base_price * (1 - 0.5)   # just set the target price to 50% of current for testing.
     token_swap_ratio = collateral_price / target_price
     amount_adjusted = amount_in * token_swap_ratio
     qty = (amount_adjusted/10**18) * 10**10 * leverage  # this is always ^10. undo other unit type conversions from prior.
