@@ -13,11 +13,18 @@ All essential methods to implement a strategy have been wrapped, while nonessent
 
 You can read, create, limit, cancel, close, history, etc. The only thing not implemented currently is adding margin to existing trades (TBD).
 
+This API will automatically connect to a list of RPC nodes held in `defi/rpc/bsc.py`. Before any method is called, the wrapper will try to connect to the RPC to validate node integrity.
+
+This API also includes some helpful functions for implementing a strategy around it, such as:
++ `await_transaction_receipt` -- blocks runtime until receipt is consumed by a node or until timeout arg is met
++ `validate_transaction_status` -- returns true/false if the txn receipt reports succeeded or failed
++ `await_finalization`  -- blocks runtime until txn on blockchain ledger is finalized and irreversable
 
 Example usage.
 ```python
 from apolloxV2 import ApolloXV2
 from defi.tokens.bsc import *
+import pprint
 
 # credentials are required for most operations. some few read commands exist
 params = {
@@ -95,6 +102,15 @@ params = {
     'take_profit': take_profit,
 }
 
+# read state of exchange before order
+positions_pre = None
+while positions_pre is None:
+    try:
+        positions_pre = APX.get_positions(base_token)
+    except Exception as e:
+        print(e)
+
+# place orders
 txn_hash = None
 if order_type == 'create_market_order':
     print('creating market order...')
@@ -103,16 +119,38 @@ elif order_type == 'create_limit_order':
     print('creating limit order...')
     txn_hash = APX.create_limit_order(**params)
 
-if txn_hash:
-    print('gas costs:')
-    pprint.pprint(APX.get_txn_gas_fees(txn_hash))
+if not txn_hash:
+    print('failed to post txn')
+    return None
 
-    receipt = APX.await_transaction_receipt(txn_hash)
-    if receipt:
-        print('transaction verified')
-        
-    # block until state is immutable on-chain.
-    APX.await_finalization(txn_hash)
+print('gas costs:')
+pprint.pprint(APX.get_txn_gas_fees(txn_hash))
+
+receipt = APX.await_transaction_receipt(txn_hash)
+if not receipt:
+    print('transaction failed to submit on chain')
+    return None
+
+if not APX.validate_transaction_status(txn_hash):
+    print('transaction status failed')
+    return None
+    
+# block until state is immutable on-chain.
+APX.await_finalization(txn_hash)
+
+# validate order has been placed:
+orders = APX.get_positions()
+
+# read state of exchange after order
+positions_post = None
+while positions_post is None:
+    try:
+        positions_post = APX.get_positions(base_token)
+    except Exception as e:
+        print(e)
+
+ if len(positions_post) > positions:
+     print('new order placed')
 
 ```
 
