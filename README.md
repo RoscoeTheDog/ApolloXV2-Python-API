@@ -16,7 +16,7 @@ You can read, create, limit, cancel, close, history, etc. The only thing not imp
 This API will automatically connect to a list of RPC nodes held in `defi/rpc/bsc.py`. Before any method is called, the wrapper will try to connect to the RPC to validate node integrity.
 
 This API also includes some helpful functions for implementing a strategy around it, such as:
-+ `await_transaction_receipt` -- blocks runtime until receipt is consumed by a node or until timeout arg is met
++ `await_transaction_receipt` -- blocks runtime until txn is acknoledged by a node or until timeout arg is met (this is typically a fast action).
 + `validate_transaction_status` -- returns true/false if the txn receipt reports succeeded or failed
 + `await_finalization`  -- blocks runtime until txn on blockchain ledger is finalized and irreversable
 
